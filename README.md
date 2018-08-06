@@ -1,5 +1,5 @@
 # ktoblzcheck-rest
-    > Simple Rest Service to consume (ktoblzcheck)[https://ktoblzcheck.sourceforge.net/]
+Simple Rest Service to consume [ktoblzcheck](https://ktoblzcheck.sourceforge.net/)
 
 
 ### Example
