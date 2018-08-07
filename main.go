@@ -71,7 +71,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 		_, err := validateIBAN(ibanStr, countryCode)
 		if err != nil {
-			writeError(w, err)
+			writeError(w, &InValidResponse{"Error parsing Form.", 0})
 			return
 		}
 
@@ -88,17 +88,22 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 		numberCheck := NewDefaultAccountNumberCheck()
 		bank, err := numberCheck.FindBank(blz)
-
-		if err != nil {
-			writeError(w, err)
-			return
-		}
 		result := &ValidResponse{
 			Iban:          Iban,
 			IbanFormatted: IbanFormatted,
-			BankName:      bank.Name,
-			BankId:        bank.BankID,
-			BankLocation:  bank.Location,
+			BankName:      "UNKNOWN",
+			BankId:        "UNKNOWN",
+			BankLocation:  "UNKNOWN",
+		}
+
+		if err == nil {
+			result = &ValidResponse{
+				Iban:          Iban,
+				IbanFormatted: IbanFormatted,
+				BankName:      bank.Name,
+				BankId:        bank.BankID,
+				BankLocation:  bank.Location,
+			}
 		}
 
 		b, err := json.Marshal(result)
